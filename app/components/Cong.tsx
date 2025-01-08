@@ -15,7 +15,6 @@ const Cong: React.FC = () => {
         const querySnapshot = await getDocs(collection(db, "congregacion"));
         const items = querySnapshot.docs.map((doc) => {
           const docData = doc.data();
-          console.log("Documento obtenido:", doc.id, docData); // Log para depuración
           return {
             id: doc.id,
             ...docData,
@@ -35,11 +34,13 @@ const Cong: React.FC = () => {
 
   return (
     <div>
-      <h1>Datos desde Firebase</h1>
+      <h1>Congregaciones creadas</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <ul>
         {data.map((item) => (
-          <li key={item.id}>{JSON.stringify(item)}</li>
+          <li key={item.id}>
+            {JSON.stringify(item.name)} {JSON.stringify(item.number)}
+          </li>
         ))}
       </ul>
     </div>

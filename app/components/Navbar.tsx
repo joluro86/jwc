@@ -2,14 +2,23 @@
 import React, { useState } from "react";
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+type NavigationItem = {
+  name: string;
+  href: string;
+  current: boolean;
+};
 
 const navigation = [
-  { name: 'Dashboard', href: '#', current: false },
+  { name: 'Dashboard', href: '/', current: false },
   { name: 'Reuniones', href: '#', current: false },
   { name: 'Informes', href: '#', current: false },
   { name: 'Grupos', href: '#', current: false },
   { name: 'Limpieza', href: '#', current: false },
   { name: 'Eventos', href: '#', current: false },
+  { name: 'Congregaciones', href: '/congregacion', current: false },
 ]
 
 function classNames(...classes: string[]) {
@@ -17,14 +26,11 @@ function classNames(...classes: string[]) {
 }
 
 const Navbar: React.FC = () => {
-  // Estado que almacena el índice del elemento actual
-  const [activeIndex, setActiveIndex] = useState<number>(0);
 
-  // Función para manejar el cambio de página y actualizar el estado de la navegación
-  const handleNavClick = (index: number) => {
-    console.log(index)
-    setActiveIndex(index);
-  };
+  // Obtener la ruta actual
+  const pathname = usePathname();
+
+
   return (
     <Disclosure as="nav" className="w-full bg-gradient-to-r from-sky-300 ...">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -49,18 +55,15 @@ const Navbar: React.FC = () => {
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
                 {navigation.map((item, index) => (
-                  <a
-                    key={index}
+                  <Link key={index}
                     href={item.href}
-                    aria-current={index === activeIndex ? 'page' : undefined}
-                    className={classNames(
-                      index === activeIndex ? 'bg-sky-600 text-gray-100' : 'text-gray-900 hover:bg-gray-600 hover:text-gray-200',
-                      'block rounded-md px-3 py-2 text-base font-medium',
-                    )}
-                    onClick={() => handleNavClick(index)} // Actualiza el estado al hacer clic
+                    className={`px-3 py-2 rounded-md text-sm font-medium ${pathname === item.href
+                        ? 'bg-blue-500 text-white'
+                        : 'text-gray-700 hover:bg-gray-200'
+                      }`}
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

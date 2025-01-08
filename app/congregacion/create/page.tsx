@@ -29,7 +29,7 @@ const CreateCongregacion = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setMessage(`Congregación creada con ID: ${data.id}`);
+        setMessage(`Congregación creada con nombre: ${data.name} y número ${data.number}`);
         setFormData({ name: "", number: "" });
       } else {
         const errorData = await response.json();

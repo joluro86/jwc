@@ -19,7 +19,7 @@ const CreateCongregacion = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/congregacion", {
+      const response = await fetch("/api/congregaciones", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

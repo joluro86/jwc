@@ -24,7 +24,9 @@ const Cong: React.FC = () => {
         setData(items);
       } catch (err) {
         console.error("Error al obtener los datos:", err);
-        setError("No se pudo obtener los datos. Revisa la consola para más detalles.");
+        setError(
+          "No se pudo obtener los datos. Revisa la consola para más detalles."
+        );
       }
     };
 

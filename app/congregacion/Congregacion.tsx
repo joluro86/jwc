@@ -76,11 +76,11 @@ const Congregacion: React.FC = () => {
           </tbody>
         </table>
       </div>
-      <DataTable value={data} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ minWidth: '50rem' }}>
-        <Column field="number" header="Número"></Column>
-        <Column field="name" header="Nombre"></Column>
-        <Column field="city" header="Ciudad"></Column>
-        <Column field="" header="Acciones"></Column>
+      <DataTable value={data} sortMode="multiple" tableStyle={{ minWidth: '50rem' }}>
+        <Column field="number" header="Número" sortable headerStyle={{ textAlign: 'center' }}></Column>
+        <Column field="name" header="Nombre" sortable headerStyle={{ textAlign: 'center' }}></Column>
+        <Column field="city" header="Ciudad" sortable headerStyle={{ textAlign: 'center' }}></Column>
+        <Column field="" header="Acciones" headerStyle={{ textAlign: 'center' }} body={() => <div className=""><div className="flex justify-center gap-4"><a href="#" className="text-blue-900"><CiEdit /></a><a href="#" className="text-red-500 hover:text-red-700"><RiDeleteBinLine /></a></div></div>}></Column>
       </DataTable>
     </div>
   );

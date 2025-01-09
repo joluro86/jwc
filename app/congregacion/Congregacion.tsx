@@ -4,9 +4,13 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../firebase/firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import Link from 'next/link';
-import { FcPlus  } from "react-icons/fc";
+import { FcPlus } from "react-icons/fc";
 import { CiEdit } from "react-icons/ci";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+
+
 
 const Congregacion: React.FC = () => {
   const [data, setData] = useState([]);
@@ -37,7 +41,7 @@ const Congregacion: React.FC = () => {
   }, []);
 
   return (
-    <div className="mx-auto mt-8">
+    <div className="mx-auto mt-8 h-full">
       <div className="flex justify-center align-items-center gap-4 border-solid border-b-2 border-sky-600 mb-4 pb-1">
         <h1 className="">Congregaciones registradas</h1>
 
@@ -45,13 +49,13 @@ const Congregacion: React.FC = () => {
           href="/congregacion/create"
           className="rounded-full"
         >
-          <FcPlus className="text-xl"/>
+          <FcPlus className="text-xl" />
         </Link>
       </div>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <div >
-        <table className="table-auto border-collapse border-2 border-gray-500">
+      <div className="">
+        <table className="table-fixed">
           <thead>
             <tr>
               <th className="border border-gray-400 px-4 py-2 text-gray-800">Nombre</th>
@@ -72,7 +76,12 @@ const Congregacion: React.FC = () => {
           </tbody>
         </table>
       </div>
-
+      <DataTable value={data} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ minWidth: '50rem' }}>
+        <Column field="number" header="Número"></Column>
+        <Column field="name" header="Nombre"></Column>
+        <Column field="city" header="Ciudad"></Column>
+        <Column field="" header="Acciones"></Column>
+      </DataTable>
     </div>
   );
 };

@@ -4,7 +4,9 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../firebase/firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import Link from 'next/link';
-import { AiOutlinePlus } from "react-icons/ai"; 
+import { FcPlus  } from "react-icons/fc";
+import { CiEdit } from "react-icons/ci";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 const Congregacion: React.FC = () => {
   const [data, setData] = useState([]);
@@ -35,15 +37,15 @@ const Congregacion: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <div>
-        <h1 className="text-center">Congregaciones creadas</h1>
+    <div className="mx-auto mt-8">
+      <div className="flex justify-center align-items-center gap-4 border-solid border-b-2 border-sky-600 mb-4 pb-1">
+        <h1 className="">Congregaciones registradas</h1>
 
         <Link
           href="/congregacion/create"
-          className="px-3 py-2 rounded-md text-sm font-medium"
+          className="rounded-full"
         >
-          <AiOutlinePlus className="text-xl" />
+          <FcPlus className="text-xl"/>
         </Link>
       </div>
 
@@ -54,6 +56,7 @@ const Congregacion: React.FC = () => {
             <tr>
               <th className="border border-gray-400 px-4 py-2 text-gray-800">Nombre</th>
               <th className="border border-gray-400 px-4 py-2 text-gray-800">Número</th>
+              <th className="border border-gray-400 px-4 py-2 text-gray-800">Ciudad</th>
               <th className="border border-gray-400 px-4 py-2 text-gray-800">Acción</th>
             </tr>
           </thead>
@@ -62,7 +65,8 @@ const Congregacion: React.FC = () => {
               <tr className="hover:bg-gray-100" key={item.id}>
                 <td className="border border-gray-400 px-2 py-0">{item.name}</td>
                 <td className="border border-gray-400 px-2 py-0">{item.number}</td>
-                <td className="border border-gray-400 px-2 py-0"><a href="#">Editar - Eliminar</a></td>
+                <td className="border border-gray-400 px-2 py-0">{item.city}</td>
+                <td className="border border-gray-400 px-2 py-0"><div className="flex justify-center gap-4"><a href="#" className="text-blue-900"><CiEdit /></a><a href="#" className="text-red-500 hover:text-red-700"><RiDeleteBinLine /></a></div></td>
               </tr>
             ))}
           </tbody>

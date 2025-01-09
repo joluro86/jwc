@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 const CreateCongregacion = () => {
-  const [formData, setFormData] = useState({ name: "", number: "" });
+  const [formData, setFormData] = useState({ name: "", number: "", city:"" });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -30,7 +30,7 @@ const CreateCongregacion = () => {
       if (response.ok) {
         const data = await response.json();
         setMessage(`Congregación creada con nombre: ${data.name} y número ${data.number}`);
-        setFormData({ name: "", number: "" });
+        setFormData({ name: "", number: "", city:"" });
       } else {
         const errorData = await response.json();
         setMessage(`Error: ${errorData.message}`);
@@ -65,10 +65,24 @@ const CreateCongregacion = () => {
             Número
           </label>
           <input
-            type="number"
+            type="numero"
             id="number"
             name="number"
             value={formData.number}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border rounded-md"
+          />
+        </div>
+        <div>
+          <label htmlFor="city" className="block font-medium">
+            Ciudad
+          </label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            value={formData.city}
             onChange={handleChange}
             required
             className="w-full px-4 py-2 border rounded-md"

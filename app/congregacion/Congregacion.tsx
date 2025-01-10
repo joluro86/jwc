@@ -69,7 +69,7 @@ const Congregacion: React.FC = () => {
   };
   
   return (
-    <div className="mx-auto mt-8 h-full">
+    <div className="mx-auto mt-8 h-full max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <div className="flex justify-center align-items-center gap-4 border-solid border-b-2 border-sky-600 mb-4 pb-1">
         <h1 className="">Congregaciones registradas</h1>
 
@@ -84,7 +84,7 @@ const Congregacion: React.FC = () => {
       {error && <p style={{ color: "red" }}>{error}</p>}
       <div className="">
         <table className="table-fixed bg-white text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead>
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th className="border border-gray-400 px-4 py-2 text-gray-800">Nombre</th>
               <th className="border border-gray-400 px-4 py-2 text-gray-800">Número</th>

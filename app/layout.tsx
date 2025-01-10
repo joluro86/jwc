@@ -14,7 +14,7 @@ export default function Layout({
   return (
     <html lang="en">
       <body>
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-gray-50">
           <Navbar />
           <main className="flex-1 flex flex-col gap-8 items-center sm:items-start">{children}</main>
           <Footer />

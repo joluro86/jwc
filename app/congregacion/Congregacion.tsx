@@ -2,18 +2,21 @@
 
 import React, { useEffect, useState } from "react";
 import { db } from "../../firebase/firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs} from "firebase/firestore";
 import Link from 'next/link';
 import { FcPlus } from "react-icons/fc";
 import { CiEdit } from "react-icons/ci";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
 
-
+interface Item {
+  id: string;
+  number: string;
+  name: string;
+  city: string;
+}
 
 const Congregacion: React.FC = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Item[]>([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -21,11 +24,13 @@ const Congregacion: React.FC = () => {
     const fetchData = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "congregacion"));
-        const items = querySnapshot.docs.map((doc) => {
+        const items: Item[] = querySnapshot.docs.map((doc) => {
           const docData = doc.data();
           return {
             id: doc.id,
-            ...docData,
+            number: docData.number || 0, // Valor por defecto si no existe en Firestore
+            name: docData.name || "Unknown", // Valor por defecto si no existe
+            city: docData.city || "Unknown", // Valor por defecto si no existe
           };
         });
         setData(items);
@@ -40,6 +45,29 @@ const Congregacion: React.FC = () => {
     fetchData();
   }, []);
 
+  const handleDelete = async (id: string): Promise<void> => {
+    try {
+      const response = await fetch("/api/congregaciones/deleteCongregacion", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("No se pudo eliminar el documento.");
+      }
+  
+      // Actualizar la lista localmente
+      const updatedData = data.filter((item) => item.id !== id);
+      setData(updatedData);
+      console.log(`Documento con id ${id} eliminado exitosamente`);
+    } catch (err) {
+      console.error(`Error al eliminar el documento con id ${id}:`, err);
+    }
+  };
+  
   return (
     <div className="mx-auto mt-8 h-full">
       <div className="flex justify-center align-items-center gap-4 border-solid border-b-2 border-sky-600 mb-4 pb-1">
@@ -55,7 +83,7 @@ const Congregacion: React.FC = () => {
 
       {error && <p style={{ color: "red" }}>{error}</p>}
       <div className="">
-        <table className="table-fixed">
+        <table className="table-fixed bg-white text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead>
             <tr>
               <th className="border border-gray-400 px-4 py-2 text-gray-800">Nombre</th>
@@ -66,22 +94,16 @@ const Congregacion: React.FC = () => {
           </thead>
           <tbody>
             {data.map((item) => (
-              <tr className="hover:bg-gray-100" key={item.id}>
+              <tr className="hover:bg-gray-100 bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={item.id}>
                 <td className="border border-gray-400 px-2 py-0">{item.name}</td>
                 <td className="border border-gray-400 px-2 py-0">{item.number}</td>
                 <td className="border border-gray-400 px-2 py-0">{item.city}</td>
-                <td className="border border-gray-400 px-2 py-0"><div className="flex justify-center gap-4"><a href="#" className="text-blue-900"><CiEdit /></a><a href="#" className="text-red-500 hover:text-red-700"><RiDeleteBinLine /></a></div></td>
+                <td className="border border-gray-400 px-2 py-0"><div className="flex justify-center gap-4"><a href="#" className="text-blue-900"><CiEdit /></a><a href="#" className="text-red-500 hover:text-red-700" onClick={() => handleDelete(item.id)}><RiDeleteBinLine /></a></div></td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <DataTable value={data} sortMode="multiple" tableStyle={{ minWidth: '50rem' }}>
-        <Column field="number" header="Número" sortable headerStyle={{ textAlign: 'center' }}></Column>
-        <Column field="name" header="Nombre" sortable headerStyle={{ textAlign: 'center' }}></Column>
-        <Column field="city" header="Ciudad" sortable headerStyle={{ textAlign: 'center' }}></Column>
-        <Column field="" header="Acciones" headerStyle={{ textAlign: 'center' }} body={() => <div className=""><div className="flex justify-center gap-4"><a href="#" className="text-blue-900"><CiEdit /></a><a href="#" className="text-red-500 hover:text-red-700"><RiDeleteBinLine /></a></div></div>}></Column>
-      </DataTable>
     </div>
   );
 };

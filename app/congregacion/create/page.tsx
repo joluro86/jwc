@@ -33,7 +33,7 @@ const CreateCongregacion = () => {
         setFormData({ name: "", number: "", city:"" });
       } else {
         const errorData = await response.json();
-        setMessage(`Error: ${errorData.message}`);
+        setMessage(`Error-1: ${errorData.message}`);
       }
     } catch (error) {
       setMessage("Error al conectar con el servidor.");
@@ -43,8 +43,8 @@ const CreateCongregacion = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8">
-      <h1 className="text-2xl font-bold mb-4">Crear Congregación</h1>
+    <div className="mt-8 mx-auto block max-w-sm p-6 bg-blue-50 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <h1 className="text-xl text-center font-bold mb-4">Crear Congregación</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="name" className="block font-medium">
@@ -91,9 +91,9 @@ const CreateCongregacion = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+          className="w-full bg-blue-400 text-white py-2 rounded-md hover:bg-blue-700"
         >
-          {loading ? "Guardando..." : "Crear"}
+          {loading ? "Guardando..." : "Guardar"}
         </button>
       </form>
       {message && (

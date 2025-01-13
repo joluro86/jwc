@@ -23,7 +23,7 @@ const Congregacion: React.FC = () => {
 
   const handleEdit = (item: any) => {
     // Redirige a la página de edición con el ID de la congregación
-    router.push(`/api/congregacion/edit/${item.id}`);
+    router.push(`congregacion/edit/${item.id}`);
   };
 
   useEffect(() => {

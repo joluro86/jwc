@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { FcPlus } from "react-icons/fc";
 import { CiEdit } from "react-icons/ci";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { useRouter } from "next/navigation";
 
 interface Item {
   id: string;
@@ -18,6 +19,12 @@ interface Item {
 const Congregacion: React.FC = () => {
   const [data, setData] = useState<Item[]>([]);
   const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleEdit = (item: any) => {
+    // Redirige a la página de edición con el ID de la congregación
+    router.push(`/api/congregacion/edit/${item.id}`);
+  };
 
   useEffect(() => {
     // Función para obtener datos desde Firestore
@@ -67,7 +74,8 @@ const Congregacion: React.FC = () => {
       console.error(`Error al eliminar el documento con id ${id}:`, err);
     }
   };
-  
+
+   
   return (
     <div className="mx-auto mt-8 h-full max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <div className="flex justify-center align-items-center gap-4 border-solid border-b-2 border-sky-600 mb-4 pb-1">
@@ -82,6 +90,7 @@ const Congregacion: React.FC = () => {
       </div>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
+
       <div className="">
         <table className="table-fixed bg-white text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -98,7 +107,7 @@ const Congregacion: React.FC = () => {
                 <td className="border border-gray-400 px-2 py-0">{item.name}</td>
                 <td className="border border-gray-400 px-2 py-0">{item.number}</td>
                 <td className="border border-gray-400 px-2 py-0">{item.city}</td>
-                <td className="border border-gray-400 px-2 py-0"><div className="flex justify-center gap-4"><a href="#" className="text-blue-900"><CiEdit /></a><a href="#" className="text-red-500 hover:text-red-700" onClick={() => handleDelete(item.id)}><RiDeleteBinLine /></a></div></td>
+                <td className="border border-gray-400 px-2 py-0"><div className="flex justify-center gap-4"><a href="#" className="text-blue-900" onClick={() => handleEdit(item)}><CiEdit /></a><a href="#" className="text-red-500 hover:text-red-700" onClick={() => handleDelete(item.id)}><RiDeleteBinLine /></a></div></td>
               </tr>
             ))}
           </tbody>

@@ -1,18 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams } from 'next/navigation';
 
 const EditPage = () => {
-  const router = useRouter();
-  const params = useSearchParams();
-  const id = params.get("id");
+  const { id } = useParams(); 
+  //const { id } = router.query; // Obtener el ID de la URL
+  const [congregation, setCongregation] = useState<any>(null);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    number: "",
-    city: "",
-  });
+  useEffect(() => {
+    if (id) {
+      // Obtener los datos del item desde Firestore
+      const fetchCongregation = async () => {
+        const docRef = db.collection('congregations').doc(id);
+        const docSnapshot = await docRef.get();
+        if (docSnapshot.exists) {
+          setCongregation(docSnapshot.data());
+        }
+      };
+      fetchCongregation();
+    }
+  }, [id]);
+
 
   useEffect(() => {
     // Cargar los datos de la congregación para editar

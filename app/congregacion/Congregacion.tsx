@@ -22,8 +22,8 @@ const Congregacion: React.FC = () => {
   const router = useRouter();
 
   const handleEdit = (item: any) => {
-    // Redirige a la página de edición con el ID de la congregación
-    router.push(`congregacion/edit/${item.id}`);
+    const itemString = encodeURIComponent(JSON.stringify(item));
+    router.push(`/congregacion/edit/${item.id}?data=${itemString}`);
   };
 
   useEffect(() => {
